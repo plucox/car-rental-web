@@ -6,8 +6,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Navigator from './Navigator';
-import Content from './Content';
 import Header from './Header';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Login from './Login';
+import Register from './Register'
 
 function Copyright() {
   return (
@@ -182,15 +184,6 @@ export default function Paperbase() {
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          {isSmUp ? null : (
-            <Navigator
-              PaperProps={{ style: { width: drawerWidth } }}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-            />
-          )}
-
           <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
             sx={{ display: { sm: 'block', xs: 'none' } }}
@@ -199,8 +192,17 @@ export default function Paperbase() {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <Content />
+            
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+              </Switch>
+              
           </Box>
+
+
+
+
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />
           </Box>

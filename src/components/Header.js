@@ -1,21 +1,47 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
+import AuthService from "../services/auth.service";
+import { Router, NavLink, useHistory } from 'react-router-dom';
+
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
+
+
+function ButtonLogInLogout () {
+  var user = AuthService.getCurrentUser();
+  const history = useHistory();
+
+  const signOutUser = () => {
+    AuthService.logout();
+    history.push("/");
+    window.location.reload();
+  };
+
+  return(
+    user ? 
+    <React.Fragment>
+      {user.email}&nbsp;&nbsp;
+    <Button variant="contained" onClick={signOutUser} >Logout</Button>
+    </React.Fragment>
+    :
+    <React.Fragment>
+      <NavLink to="/login">
+        <Button variant="contained">Log In</Button>
+      </NavLink>
+      <NavLink to="/register">
+        <Button variant="contained">Sign Up</Button>
+      </NavLink>
+    </React.Fragment>
+  )
+}
 
 function Header(props) {
   const { onDrawerToggle } = props;
@@ -36,9 +62,9 @@ function Header(props) {
               </IconButton>
             </Grid>
             <Grid item xs />
-            {/* 
-            TODO: Put here buttons for register and login 
-            */}
+
+              <ButtonLogInLogout />
+
           </Grid>
         </Toolbar>
       </AppBar>
