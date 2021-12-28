@@ -9,7 +9,9 @@ import Navigator from './Navigator';
 import Header from './Header';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Login from './Login';
-import Register from './Register'
+import Register from './Register';
+import Cars from './Cars';
+import Content from './Content';
 
 function Copyright() {
   return (
@@ -196,6 +198,8 @@ export default function Paperbase() {
               <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/content" component={Content} />
+                <Route path="/cars" component={Cars} />
               </Switch>
               
           </Box>

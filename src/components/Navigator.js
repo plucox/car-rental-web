@@ -17,34 +17,28 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import { Link, NavLink } from 'react-router-dom';
+
 
 const categories = [
   {
-    id: 'Build',
+    id: 'User',
     children: [
-      {
-        id: 'Authentication',
-        icon: <PeopleIcon />,
-        active: true,
-      },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      {
-        id: 'Machine learning',
-        icon: <SettingsInputComponentIcon />,
-      },
+      { id: 'Dashboard', icon: <PeopleIcon />, link: "/", active: true },
+      { id: 'Car List', icon: <DnsRoundedIcon />, link: "/cars" },
+      { id: 'Storage', icon: <PermMediaOutlinedIcon />, link: "/content"},
+      { id: 'Hosting', icon: <PublicIcon />, link: "/"},
+      { id: 'Functions', icon: <SettingsEthernetIcon />, link: "/"},
     ],
   },
-  {
-    id: 'Quality',
-    children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
-    ],
-  },
+  // {
+  //   id: 'Quality',
+  //   children: [
+  //     { id: 'Analytics', icon: <SettingsIcon />, link: "/" },
+  //     { id: 'Performance', icon: <TimerIcon />, link: "/" },
+  //     { id: 'Test Lab', icon: <PhonelinkSetupIcon />, link: "/" },
+  //   ],
+  // },
 ];
 
 const item = {
@@ -82,13 +76,15 @@ export default function Navigator(props) {
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon, active }) => (
-              <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{childId}</ListItemText>
-                </ListItemButton>
-              </ListItem>
+            {children.map(({ id: childId, icon, active, link }) => (
+              <NavLink to={link} key={childId}>
+                <ListItem disablePadding key={childId}>
+                  <ListItemButton selected={active} sx={item}>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText>{childId}</ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
             ))}
 
             <Divider sx={{ mt: 2 }} />
