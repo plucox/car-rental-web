@@ -7,7 +7,7 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import API from '../API';
 import authHeader from '../services/auth-header';
-
+import AcceptRent from './AcceptRent';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,9 +25,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CarCard({id, mark, model, type, price, available}) {
+export default function CarCard({id, mark, model, type, price, available, dateFrom, dateTo}) {
     const classes = useStyles();
     const [details, setDetails] = React.useState([]);
+    const [acceptRentWindow, setAcceptRentWindow] = React.useState(false);
+    var differenceInTime = new Date(dateTo) - new Date (dateFrom);
+    var differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    price=differenceInDays*price;
+
+    let popWindow = (
+      <>
+        <AcceptRent 
+        id={id} 
+        mark={mark} 
+        model={model} 
+        type={type} 
+        price={price} 
+        engine={details.engine}
+        fuelType={details.fuelType}
+        horsePower={details.horsePower}
+        color={details.color}
+        seats={details.seats}
+        yearOfProduction={details.yearOfProduction}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        />
+      </>
+    )
+
+    const acceptRentHandler = () => {
+      if(available === true)
+        setAcceptRentWindow(true);
+    }
 
     React.useEffect(() => {
       API.get('car/details?idCar='+id,{ headers: authHeader() }).then(result => {
@@ -61,11 +90,13 @@ export default function CarCard({id, mark, model, type, price, available}) {
                 variant="contained"
                 className={classes.button}
                 endIcon={<AddShoppingCartIcon />}
-                color="secondary">
+                color="secondary"
+                onClick={acceptRentHandler}
+              >
                 { new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(price) }
               </Button>
             </CardActions>
-            {/* {target?popWindow : ""} */}
+            {acceptRentWindow ? popWindow : ""}
         </Card>
     );
 }

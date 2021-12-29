@@ -5,7 +5,6 @@ import {makeStyles} from '@mui/styles';
 import {useHistory} from 'react-router-dom';
 import API from '../API';
 import authHeader from '../services/auth-header';
-import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -121,6 +120,8 @@ export default function AvailableCars() {
                                   price={price}
                                   type={type}
                                   available={true}
+                                  dateFrom={dateFrom}
+                                  dateTo={dateTo}
                                   />
                               </Grid>
                           ))}
