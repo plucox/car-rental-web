@@ -26,7 +26,7 @@ const categories = [
     children: [
       { id: 'Dashboard', icon: <PeopleIcon />, link: "/", active: true },
       { id: 'Car List', icon: <DnsRoundedIcon />, link: "/cars" },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon />, link: "/content"},
+      { id: 'Rent car', icon: <PermMediaOutlinedIcon />, link: "/availablecars"},
       { id: 'Hosting', icon: <PublicIcon />, link: "/"},
       { id: 'Functions', icon: <SettingsEthernetIcon />, link: "/"},
     ],

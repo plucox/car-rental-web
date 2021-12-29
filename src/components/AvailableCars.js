@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Typography, Paper, Grid, Button, FormControl, InputLabel} from '@mui/material';
+import {Typography, Paper, Grid, Button, FormControl, InputLabel, TextField, Stack} from '@mui/material';
 import CarCard from './CarCard';
 import {makeStyles} from '@mui/styles';
 import {useHistory} from 'react-router-dom';
@@ -52,21 +52,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Cars() {
+export default function AvailableCars() {
   const classes = useStyles();
   const history = useHistory();
+  const [dateFrom, setDateFrom] = React.useState("2021-12-01");
+  const [dateTo, setDateTo] = React.useState("2021-12-02");
   const [carList, setCarList] = React.useState(
     [{}]
   );
 
+  const onChangeDateFrom = (e) => {
+      setDateFrom(e.target.value);
+  };
+
+  const onChangeDateTo = (e) => {
+      setDateTo(e.target.value);
+  }
+
   React.useEffect(() => {
-    API.get('car/all',{ headers: authHeader() }).then((result) => {
-      // console.log(result.data);
+    API.get('car/all-available?dateFrom='+dateFrom+'&dateTo='+dateTo,{ headers: authHeader() }).then((result) => {
       setCarList(result.data)
     }).catch(() => {
       console.log("There are no cars!");
     })
-  },[]);
+  },[dateFrom, dateTo]);
 
 
     return (
@@ -75,9 +84,32 @@ export default function Cars() {
           <Typography component="h1" variant="h4" align="center">
           List of cars
           </Typography>
+            <TextField
+                id="dateFrom"
+                label="Date From"
+                type="date"
+                defaultValue="2021-12-01"
+                onChange={onChangeDateFrom}
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                shrink: true,
+                }}
+            />&nbsp;
+            <TextField
+                id="dateTo"
+                label="Date To"
+                type="date"
+                defaultValue="2021-12-02"
+                onChange={onChangeDateTo}
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                shrink: true,
+                }}
+            />
           <React.Fragment>
               <React.Fragment>
                   <React.Fragment>
+                      <br/>
                       <br/>
                         <Grid container alignItems="center" spacing={3}>
                           {carList.map(({_id,mark, model, type, price}) => (
@@ -88,6 +120,7 @@ export default function Cars() {
                                   model={model}
                                   price={price}
                                   type={type}
+                                  available={true}
                                   />
                               </Grid>
                           ))}

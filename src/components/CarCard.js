@@ -5,6 +5,9 @@ import {makeStyles} from '@mui/styles';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import API from '../API';
+import authHeader from '../services/auth-header';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,25 +25,34 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CarCard({id, productName, detail0, price, profileType}) {
+export default function CarCard({id, mark, model, type, price, available}) {
     const classes = useStyles();
-    let popWindow = (
-        <>
-          {/* <AcceptMentee id={id} productName={productName} detail0={detail0} price={price} profileType={profileType}/> */}
-        </>
-      )
+    const [details, setDetails] = React.useState([]);
+
+    React.useEffect(() => {
+      API.get('car/details?idCar='+id,{ headers: authHeader() }).then(result => {
+        // console.log(result.data);
+        setDetails(result.data);
+      }).catch(() => {
+        console.log("Cannot find details for given id car!");
+      })
+      },[]);
+    
 
     return(
         <Card className={classes.root}>
           <CardActionArea>
             <CardContent className={classes.cardContent}>
               <Typography gutterBottom component="h6" variant="body1" >
-              {<DirectionsCarIcon />} <b>bmw m7 coupe</b>
+              {<DirectionsCarIcon />} <b>{mark} {model} {type}</b>
               </Typography>
               <Typography variant="caption" component="h2">
-                  Mark: marka<br/>
-                  Model: <b>jakis</b><br/>
-                  Type: {detail0}<br/>
+                  Engine: <b>{details.engine}</b><br/>
+                  Fuel Type: <b>{details.fuelType}</b><br/>
+                  Horse Power: <b>{details.horsePower}</b><br/>
+                  Color: <b>{details.color}</b><br/>
+                  Seats: <b>{details.seats}</b><br/>
+                  Year of production: <b>{details.yearOfProduction}</b><br/>
               </Typography>
             </CardContent>
           </CardActionArea>
