@@ -25,42 +25,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CarCard({id, mark, model, type, price, available, dateFrom, dateTo}) {
+export default function Rent({dateFrom, dateTo, mark, model, type, price, idCar}) {
     const classes = useStyles();
     const [details, setDetails] = React.useState([]);
-    const [acceptRentWindow, setAcceptRentWindow] = React.useState(false);
     var differenceInTime = new Date(dateTo) - new Date (dateFrom);
     var differenceInDays = differenceInTime / (1000 * 3600 * 24);
     if(differenceInDays > 0)
       price=differenceInDays*price;
 
-    let popWindow = (
-      <>
-        <AcceptRent 
-        id={id} 
-        mark={mark} 
-        model={model} 
-        type={type} 
-        price={price} 
-        engine={details.engine}
-        fuelType={details.fuelType}
-        horsePower={details.horsePower}
-        color={details.color}
-        seats={details.seats}
-        yearOfProduction={details.yearOfProduction}
-        dateFrom={dateFrom}
-        dateTo={dateTo}
-        />
-      </>
-    )
-
-    const acceptRentHandler = () => {
-      if(available === true)
-        setAcceptRentWindow(true);
-    }
-
     React.useEffect(() => {
-      API.get('car/details?idCar='+id,{ headers: authHeader() }).then(result => {
+      API.get('car/details?idCar='+idCar,{ headers: authHeader() }).then(result => {
         // console.log(result.data);
         setDetails(result.data);
       }).catch(() => {
@@ -72,32 +46,31 @@ export default function CarCard({id, mark, model, type, price, available, dateFr
     return(
         <Card className={classes.root}>
           <CardActionArea>
-            <CardContent className={classes.cardContent}>
-              <Typography gutterBottom component="h6" variant="body1" >
-              {<DirectionsCarIcon />} <b>{mark} {model} {type}</b>
-              </Typography>
-              <Typography variant="caption" component="h2">
-                  Engine: <b>{details.engine}</b><br/>
-                  Fuel Type: <b>{details.fuelType}</b><br/>
-                  Horse Power: <b>{details.horsePower}</b><br/>
-                  Color: <b>{details.color}</b><br/>
-                  Seats: <b>{details.seats}</b><br/>
-                  Year of production: <b>{details.yearOfProduction}</b><br/>
-              </Typography>
-            </CardContent>
+                <CardContent className={classes.cardContent}>
+                <Typography gutterBottom component="h6" variant="body1" >
+                {<DirectionsCarIcon />} <b>{mark} {model} {type}</b>
+                </Typography>
+                <Typography variant="caption" component="h2">
+                    Engine: <b>{details.engine}</b><br/>
+                    Fuel Type: <b>{details.fuelType}</b><br/>
+                    Horse Power: <b>{details.horsePower}</b><br/>
+                    Color: <b>{details.color}</b><br/>
+                    Seats: <b>{details.seats}</b><br/>
+                    Year of production: <b>{details.yearOfProduction}</b><br/>
+                    Rent days: <b>{dateFrom}</b> - <b>{dateTo}</b>
+                </Typography>
+                </CardContent>
+        
           </CardActionArea>
             <CardActions>
               <Button
                 variant="contained"
                 className={classes.button}
-                endIcon={<AddShoppingCartIcon />}
                 color="secondary"
-                onClick={acceptRentHandler}
               >
                 { new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(price) }
               </Button>
             </CardActions>
-            {acceptRentWindow ? popWindow : ""}
         </Card>
     );
 }

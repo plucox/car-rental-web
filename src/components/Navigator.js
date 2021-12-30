@@ -18,6 +18,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import { Link, NavLink } from 'react-router-dom';
+import AuthService from '../services/auth.service';
 
 
 const categories = [
@@ -27,19 +28,23 @@ const categories = [
       { id: 'Dashboard', icon: <PeopleIcon />, link: "/", active: true },
       { id: 'Car List', icon: <DnsRoundedIcon />, link: "/cars" },
       { id: 'Rent car', icon: <PermMediaOutlinedIcon />, link: "/availablecars"},
-      { id: 'Hosting', icon: <PublicIcon />, link: "/"},
-      { id: 'Functions', icon: <SettingsEthernetIcon />, link: "/"},
+      { id: 'My rents', icon: <PublicIcon />, link: "/rents"},
     ],
+    Roles: 'ROLE_USER',
   },
-  // {
-  //   id: 'Quality',
-  //   children: [
-  //     { id: 'Analytics', icon: <SettingsIcon />, link: "/" },
-  //     { id: 'Performance', icon: <TimerIcon />, link: "/" },
-  //     { id: 'Test Lab', icon: <PhonelinkSetupIcon />, link: "/" },
-  //   ],
-  // },
 ];
+
+const categoriesAdmin = [
+  {
+    id: 'Admin',
+    children: [
+      { id: 'Add Car', icon: <SettingsIcon />, link: "/addcar" },
+      { id: 'Performance', icon: <TimerIcon />, link: "/" },
+      { id: 'Test Lab', icon: <PhonelinkSetupIcon />, link: "/" },
+    ],
+    Roles: 'ROLE_ADMIN',
+  },
+]
 
 const item = {
   py: '2px',
@@ -58,6 +63,7 @@ const itemCategory = {
 
 export default function Navigator(props) {
   const { ...other } = props;
+  var user = AuthService.getCurrentUser();
 
   return (
     <Drawer variant="permanent" {...other}>
@@ -86,10 +92,31 @@ export default function Navigator(props) {
                 </ListItem>
               </NavLink>
             ))}
-
             <Divider sx={{ mt: 2 }} />
           </Box>
         ))}
+
+        {user.roles == 'ROLE_USER' ? 
+        categoriesAdmin.map(({ id, children }) => (
+          <Box key={id} sx={{ bgcolor: '#101F33' }}>
+            <ListItem sx={{ py: 2, px: 3 }}>
+              <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
+            </ListItem>
+            {children.map(({ id: childId, icon, active, link }) => (
+              <NavLink to={link} key={childId}>
+                <ListItem disablePadding key={childId}>
+                  <ListItemButton selected={active} sx={item}>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText>{childId}</ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            ))}
+            <Divider sx={{ mt: 2 }} />
+          </Box>
+        ))
+        : ""}
+
       </List>
     </Drawer>
   );
