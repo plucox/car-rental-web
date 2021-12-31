@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function AddCar() {
+export default function AddCar(id, role) {
   const classes = useStyles();
   const history = useHistory();
   const [carId, setCarId] = React.useState("");
@@ -101,36 +101,15 @@ export default function AddCar() {
             headers: authHeader()
         })
         .then((result) => {
-            console.log(result.data);
             history.push("/");
         })
         .catch((err) => {
             console.log(err);
-        })
-        })
+        })})
       .catch((err) => {
           console.log(err);
       })
       
-    //   //Adding car details
-    //   API.post('car/add-details?idCar='+carId, 
-    //   {
-    //     "engine": values.engine,
-    //     "fuelType": values.fuelType,
-    //     "horsePower": values.horsePower,
-    //     "yearOfProduction": values.yearOfProduction,
-    //     "color": values.color,
-    //     "seats": values.seats
-    //   }, 
-    //   {
-    //       headers: authHeader()
-    //   })
-    //   .then((result) => {
-    //     console.log(result.data);
-    //   })
-    //   .catch((err) => {
-    //       console.log(err);
-    //   })
   };
 
     return (

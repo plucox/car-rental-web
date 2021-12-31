@@ -8,6 +8,9 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import API from '../API';
 import authHeader from '../services/auth-header';
 import AcceptRent from './AcceptRent';
+import EditIcon from '@mui/icons-material/Edit';
+import AddCar from './AddCar';
+import DeleteCar from './DeleteCar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CarCard({id, mark, model, type, price, available, dateFrom, dateTo}) {
+export default function CarCard({id, mark, model, type, price, available, dateFrom, dateTo, role}) {
     const classes = useStyles();
     const [details, setDetails] = React.useState([]);
     const [acceptRentWindow, setAcceptRentWindow] = React.useState(false);
@@ -33,6 +36,28 @@ export default function CarCard({id, mark, model, type, price, available, dateFr
     var differenceInDays = differenceInTime / (1000 * 3600 * 24);
     if(differenceInDays > 0)
       price=differenceInDays*price;
+    
+    const [deleteCar, setDeleteCar] = React.useState(false);
+
+    let deleteCarView = (
+      <>
+        <DeleteCar 
+        id={id} 
+        mark={mark} 
+        model={model} 
+        type={type} 
+        price={price} 
+        engine={details.engine}
+        fuelType={details.fuelType}
+        horsePower={details.horsePower}
+        color={details.color}
+        seats={details.seats}
+        yearOfProduction={details.yearOfProduction}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        />
+      </>
+    )
 
     let popWindow = (
       <>
@@ -57,6 +82,10 @@ export default function CarCard({id, mark, model, type, price, available, dateFr
     const acceptRentHandler = () => {
       if(available === true)
         setAcceptRentWindow(true);
+    }
+
+    const deleteCarHandler = () =>{
+      setDeleteCar(true);
     }
 
     React.useEffect(() => {
@@ -90,14 +119,15 @@ export default function CarCard({id, mark, model, type, price, available, dateFr
               <Button
                 variant="contained"
                 className={classes.button}
-                endIcon={<AddShoppingCartIcon />}
+                endIcon={role=='ROLE_ADMIN' ? <EditIcon /> : <AddShoppingCartIcon />}
                 color="secondary"
-                onClick={acceptRentHandler}
+                onClick={role=='ROLE_ADMIN' ? deleteCarHandler : acceptRentHandler}
               >
                 { new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(price) }
               </Button>
             </CardActions>
             {acceptRentWindow ? popWindow : ""}
+            {deleteCar ? deleteCarView : ""}
         </Card>
     );
 }

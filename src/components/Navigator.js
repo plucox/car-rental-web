@@ -25,12 +25,11 @@ const categories = [
   {
     id: 'User',
     children: [
-      { id: 'Dashboard', icon: <PeopleIcon />, link: "/", active: true },
+      { id: 'Dashboard', icon: <PeopleIcon />, link: "/" },
       { id: 'Car List', icon: <DnsRoundedIcon />, link: "/cars" },
       { id: 'Rent car', icon: <PermMediaOutlinedIcon />, link: "/availablecars"},
       { id: 'My rents', icon: <PublicIcon />, link: "/rents"},
     ],
-    Roles: 'ROLE_USER',
   },
 ];
 
@@ -39,10 +38,9 @@ const categoriesAdmin = [
     id: 'Admin',
     children: [
       { id: 'Add Car', icon: <SettingsIcon />, link: "/addcar" },
-      { id: 'Performance', icon: <TimerIcon />, link: "/" },
+      { id: 'All cars', icon: <TimerIcon />, link: "/allcars" },
       { id: 'Test Lab', icon: <PhonelinkSetupIcon />, link: "/" },
     ],
-    Roles: 'ROLE_ADMIN',
   },
 ]
 
@@ -77,6 +75,7 @@ export default function Navigator(props) {
           </ListItemIcon>
           <ListItemText>Project Overview</ListItemText>
         </ListItem>
+
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>
@@ -96,7 +95,7 @@ export default function Navigator(props) {
           </Box>
         ))}
 
-        {user.roles == 'ROLE_USER' ? 
+        {user?.roles == 'ROLE_ADMIN' ? 
         categoriesAdmin.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>

@@ -15,6 +15,7 @@ import Content from './Content';
 import AvailableCars from './AvailableCars';
 import Rents from './Rents';
 import AddCar from './AddCar';
+import AllCars from './AllCars';
 
 function Copyright() {
   return (
@@ -206,6 +207,7 @@ export default function Paperbase() {
                 <Route path="/availablecars" component={AvailableCars} />
                 <Route path="/rents" component={Rents} />
                 <Route path="/addcar" component={AddCar} />
+                <Route path="/allcars" component={AllCars} />
               </Switch>
               
           </Box>
