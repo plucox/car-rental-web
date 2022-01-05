@@ -54,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
 export default function AvailableCars() {
   const classes = useStyles();
   const history = useHistory();
-  const [dateFrom, setDateFrom] = React.useState("2021-12-01");
-  const [dateTo, setDateTo] = React.useState("2021-12-02");
+  const [dateFrom, setDateFrom] = React.useState("2022-01-01");
+  const [dateTo, setDateTo] = React.useState("2022-01-02");
   const [carList, setCarList] = React.useState(
     [{}]
   );
@@ -87,7 +87,7 @@ export default function AvailableCars() {
                 id="dateFrom"
                 label="Date From"
                 type="date"
-                defaultValue="2021-12-01"
+                defaultValue={dateFrom}
                 onChange={onChangeDateFrom}
                 sx={{ width: 220 }}
                 InputLabelProps={{
@@ -98,7 +98,7 @@ export default function AvailableCars() {
                 id="dateTo"
                 label="Date To"
                 type="date"
-                defaultValue="2021-12-02"
+                defaultValue={dateTo}
                 onChange={onChangeDateTo}
                 sx={{ width: 220 }}
                 InputLabelProps={{

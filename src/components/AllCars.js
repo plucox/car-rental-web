@@ -71,12 +71,13 @@ export default function AllCars() {
     })
   },[]);
 
+  console.log(window.location.pathname)
 
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-          List of cars
+          List of cars to delete
           </Typography>
           <React.Fragment>
               <React.Fragment>
