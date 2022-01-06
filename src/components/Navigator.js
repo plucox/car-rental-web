@@ -76,7 +76,8 @@ export default function Navigator(props) {
           <ListItemText>Project Overview</ListItemText>
         </ListItem>
 
-        {categories.map(({ id, children }) => (
+        {user ? 
+        categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
@@ -93,7 +94,7 @@ export default function Navigator(props) {
             ))}
             <Divider sx={{ mt: 2 }} />
           </Box>
-        ))}
+        )) : ""}
 
         {user?.roles == 'ROLE_ADMIN' ? 
         categoriesAdmin.map(({ id, children }) => (
