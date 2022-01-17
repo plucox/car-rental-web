@@ -40,7 +40,7 @@ const categoriesAdmin = [
     children: [
       { id: 'Add Car', icon: <SettingsIcon />, link: "/addcar" },
       { id: 'Delete Car', icon: <TimerIcon />, link: "/allcars" },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon />, link: "/" },
+      { id: 'All Rents', icon: <PhonelinkSetupIcon />, link: "/allrents" },
     ],
   },
 ]

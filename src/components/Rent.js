@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Rent({idRent, dateFrom, dateTo, mark, model, type, price, idCar}) {
+export default function Rent({idRent, dateFrom, dateTo, mark, model, type, price, idCar, allRents}) {
     const classes = useStyles();
     const [details, setDetails] = React.useState([]);
     var differenceInTime = new Date(dateTo) - new Date (dateFrom);
@@ -36,12 +36,12 @@ export default function Rent({idRent, dateFrom, dateTo, mark, model, type, price
 
     const [deleteRent, setDeleteRent] = React.useState(false);
     const deleteRentHandler = () => {
-      setDeleteRent(true);
+      if(allRents!=false)
+        setDeleteRent(true);
     };
 
     React.useEffect(() => {
       API.get('car/details?idCar='+idCar,{ headers: authHeader() }).then(result => {
-        // console.log(result.data);
         setDetails(result.data);
       }).catch(() => {
         console.log("Cannot find details for given id car!");
