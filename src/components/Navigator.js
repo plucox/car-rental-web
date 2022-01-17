@@ -29,6 +29,7 @@ const categories = [
       { id: 'Car List', icon: <DnsRoundedIcon />, link: "/cars" },
       { id: 'Rent car', icon: <PermMediaOutlinedIcon />, link: "/availablecars"},
       { id: 'My rents', icon: <PublicIcon />, link: "/rents"},
+      { id: 'My profile', icon: <SettingsInputComponentIcon />, link: "/profile"},
     ],
   },
 ];

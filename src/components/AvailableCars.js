@@ -60,6 +60,8 @@ export default function AvailableCars() {
     [{}]
   );
 
+  const [renderCarList, setRenderCarList]=React.useState(false);
+
   const onChangeDateFrom = (e) => {
       setDateFrom(e.target.value);
   };
@@ -69,11 +71,19 @@ export default function AvailableCars() {
   }
 
   React.useEffect(() => {
+
+    if(dateTo>dateFrom){
     API.get('car/all-available?dateFrom='+dateFrom+'&dateTo='+dateTo,{ headers: authHeader() }).then((result) => {
-      setCarList(result.data)
+      setCarList(result.data);
+      setRenderCarList(true)
     }).catch(() => {
       console.log("There are no cars!");
     })
+  } else {
+    setCarList([{}]);
+    setRenderCarList(false);
+  }
+
   },[dateFrom, dateTo]);
 
 
@@ -111,7 +121,7 @@ export default function AvailableCars() {
                       <br/>
                       <br/>
                         <Grid container alignItems="center" spacing={3}>
-                          {carList.map(({_id,mark, model, type, price}) => (
+                          {renderCarList ? carList.map(({_id,mark, model, type, price}) => (
                             <Grid item xs={4} key={_id}>
                                   <CarCard 
                                   id={_id}
@@ -124,7 +134,11 @@ export default function AvailableCars() {
                                   dateTo={dateTo}
                                   />
                               </Grid>
-                          ))}
+                          )): 
+                          <Typography component="h1" variant="h5" align="right">
+                          &nbsp;&nbsp;&nbsp;&nbsp;No cars to render, Enter correct date.
+                          </Typography>
+                          }
                         </Grid>
                   </React.Fragment>
           </React.Fragment>

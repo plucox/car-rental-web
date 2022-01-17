@@ -71,8 +71,6 @@ export default function AllCars() {
     })
   },[]);
 
-  console.log(window.location.pathname)
-
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>

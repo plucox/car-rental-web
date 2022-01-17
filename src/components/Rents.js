@@ -69,6 +69,7 @@ export default function Rents() {
         "dateFrom": "2021-12-01",
         "dateTo": "2021-12-02"
     }]);
+    const [loadRents, setLoadRents] = React.useState(false);
     
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user.id;
@@ -76,10 +77,14 @@ export default function Rents() {
   React.useEffect(() => {
     API.get('user/getAllUserRents?userId='+userId,{ headers: authHeader() }).then((result) => {
       setRentList(result.data)
+      if(result.data.length>0){
+        setLoadRents(true)
+      }
     }).catch(() => {
       console.log("There are no cars!");
     })
-  },[]);
+  },[userId]);
+
 
     return (
       <main className={classes.layout}>
@@ -92,7 +97,8 @@ export default function Rents() {
                   <React.Fragment>
                       <br/>
                         <Grid container alignItems="center" spacing={3}>
-                          {rentList.map(({_id,dateFrom, dateTo, car}) => (
+                          {loadRents ? 
+                          rentList.map(({_id,dateFrom, dateTo, car}) => (
                             <Grid item xs={12} key={_id}>
                                 <Rent
                                 idRent={_id}
@@ -105,7 +111,12 @@ export default function Rents() {
                                 price={car.price}
                                 />
                               </Grid>
-                          ))}
+                          ))
+                        :
+                        <Typography component="h1" variant="h5" align="right">
+                          &nbsp;&nbsp;&nbsp;&nbsp;No rents to render.
+                        </Typography>
+                        }
                         </Grid>
                   </React.Fragment>
           </React.Fragment>
