@@ -95,6 +95,7 @@ export default function Rents() {
                           {rentList.map(({_id,dateFrom, dateTo, car}) => (
                             <Grid item xs={12} key={_id}>
                                 <Rent
+                                idRent={_id}
                                 dateFrom={dateFrom}
                                 dateTo={dateTo}
                                 mark={car.mark}

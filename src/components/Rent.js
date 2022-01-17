@@ -8,6 +8,7 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import API from '../API';
 import authHeader from '../services/auth-header';
 import AcceptRent from './AcceptRent';
+import DeleteRent from './DeleteRent';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,13 +26,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Rent({dateFrom, dateTo, mark, model, type, price, idCar}) {
+export default function Rent({idRent, dateFrom, dateTo, mark, model, type, price, idCar}) {
     const classes = useStyles();
     const [details, setDetails] = React.useState([]);
     var differenceInTime = new Date(dateTo) - new Date (dateFrom);
     var differenceInDays = differenceInTime / (1000 * 3600 * 24);
     if(differenceInDays > 0)
       price=differenceInDays*price;
+
+    const [deleteRent, setDeleteRent] = React.useState(false);
+    const deleteRentHandler = () => {
+      setDeleteRent(true);
+    };
 
     React.useEffect(() => {
       API.get('car/details?idCar='+idCar,{ headers: authHeader() }).then(result => {
@@ -42,6 +48,26 @@ export default function Rent({dateFrom, dateTo, mark, model, type, price, idCar}
       })
       },[]);
     
+    let deleteRentView = (
+      <>
+        <DeleteRent
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        mark={mark}
+        model={model}
+        type={type}
+        idRent={idRent}
+        price={price}
+        engine={details.engine}
+        fuelType={details.fuelType}
+        horsePower={details.horsePower}
+        color={details.color}
+        seats={details.seats}
+        yearOfProduction={details.yearOfProduction}
+        />
+      </>
+    )
+
 
     return(
         <Card className={classes.root}>
@@ -67,10 +93,12 @@ export default function Rent({dateFrom, dateTo, mark, model, type, price, idCar}
                 variant="contained"
                 className={classes.button}
                 color="secondary"
+                onClick={deleteRentHandler}
               >
                 { new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(price) }
               </Button>
             </CardActions>
+            {deleteRent ? deleteRentView : ""}
         </Card>
     );
 }
