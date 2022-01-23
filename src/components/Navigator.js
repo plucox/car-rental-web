@@ -10,10 +10,15 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
+import CarRentalIcon from '@mui/icons-material/CarRental';
 import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
 import PublicIcon from '@mui/icons-material/Public';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
+import ListIcon from '@mui/icons-material/List';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
@@ -25,11 +30,11 @@ const categories = [
   {
     id: 'User',
     children: [
-      { id: 'Dashboard', icon: <PeopleIcon />, link: "/" },
-      { id: 'Car List', icon: <DnsRoundedIcon />, link: "/cars" },
-      { id: 'Rent car', icon: <PermMediaOutlinedIcon />, link: "/availablecars"},
-      { id: 'My rents', icon: <PublicIcon />, link: "/rents"},
-      { id: 'My profile', icon: <SettingsInputComponentIcon />, link: "/profile"},
+      { id: 'Dashboard', icon: <DashboardIcon />, link: "/" },
+      { id: 'Car list', icon: <DirectionsCarFilledIcon />, link: "/cars" },
+      { id: 'Rent car', icon: <CarRentalIcon />, link: "/availablecars"},
+      { id: 'My rents', icon: <ListIcon />, link: "/rents"},
+      { id: 'My profile', icon: <AccountBoxIcon />, link: "/profile"},
     ],
   },
 ];
